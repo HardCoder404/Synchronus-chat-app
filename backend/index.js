@@ -8,12 +8,16 @@ import contactRoutes from "./controllers/ContactController.js"
 import setupSocket from "./socket.js"
 import messagesRoute from "./routes/MessagesRoute.js"
 import ChannelRoutes from "./routes/ChannelRoute.js"
+import path from "path"
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 const databaseURL = process.env.DATABASE_URL;
+
+const _dirname = path.resolve();
+
 
 // Implement Cors: 
 const corsOptions = {
@@ -33,6 +37,11 @@ app.use("/api/auth",authRoutes)
 app.use("/api/contacts",contactRoutes);
 app.use("/api/messages",messagesRoute);
 app.use("/api/channel",ChannelRoutes);
+
+app.use(express.static(path.join(_dirname,"/frontend/dist")));
+app.get('*', (req,res)=>{
+    res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+});
 
 app.get("/", (req, res) => {
     res.status(200).json({ message: "Server is working fine!" });
