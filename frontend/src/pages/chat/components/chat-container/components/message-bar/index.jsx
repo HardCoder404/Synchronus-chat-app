@@ -100,8 +100,8 @@ export default function MessageBar() {
   };
 
   return (
-    <div className='h-[10vh] bg-[#1c1d25] flex justify-center items-center px-8 mb-6 gap-6  '>
-       <div className="flex-1 flex bg-[#2a2b33] rounded-full items-center gap-5 pr-5 ">
+    <div className='bg-[#1c1d25] flex justify-center items-center md:px-8 px-5 mb-6 md:gap-3 gap-2 '>
+       <div className="flex-1 md:w-full w-72  h-14 flex bg-[#2a2b33] rounded-full items-center gap-5 pr-5 ">
         <input 
         type='text'
         className='flex-1 p-5 bg-transparent rounded-md focus:border-none focus:outline-none'
@@ -114,15 +114,20 @@ export default function MessageBar() {
           }
         }}
         />
-        <button onClick={handleAttachmentClick}>
+        <div className='relative items-center md:mr-0 mr-3 flex'>
+
+        <button onClick={handleAttachmentClick} className='md:relative absolute right-0 '>
             <Paperclip size={20} />
         </button>
+        </div>
         <input type="file" className='hidden' ref={fileInputRef} onChange={handleAttachmentChange} />
         <div className='relative flex justify-center '>
-        <button onClick={()=>setemojiPickerOpen(true)}>
-            <SmilePlus size={20} />
-        </button>
-        <div ref={emojiRef} className='absolute bottom-16 right-0'>
+          <div className='relative flex items-center'>
+          <button onClick={()=>setemojiPickerOpen(true)} className='md:relative absolute right-0 '>
+              <SmilePlus size={20} />
+          </button>
+          </div>
+        <div ref={emojiRef} className='absolute bottom-16 md:right-0 lg:right-0 xl:right-0 right-[-80px]'>
             <EmojiPicker 
             theme='dark'
             open={emojiPickerOpen}
@@ -135,7 +140,7 @@ export default function MessageBar() {
         </div>
         </div>
        </div>
-       <button className='bg-[#8417ff] rounded-full flex items-center justify-center p-5 hover:bg-[#741bda]' 
+       <button className='bg-[#8417ff] h-full rounded-full flex items-center justify-center px-5 hover:bg-[#741bda]' 
        onClick={handleSendMessage}>
           <SendHorizonal size={20} />
        </button>

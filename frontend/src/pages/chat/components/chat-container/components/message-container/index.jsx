@@ -109,10 +109,15 @@ export default function MessageContainer() {
         {
           message.messageType === "text" && (
             <div className={`${message.sender !== selectedChatData._id ? 
-              "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50": 
-              "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
-            } border inline-block p-4 rounded-2xl my-1 max-w-[50%] break-words`}>
+              "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50 rounded-t-2xl rounded-l-2xl text-left": 
+              "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20 rounded-t-2xl rounded-r-2xl"
+            } border inline-block px-3 pt-1 my-1 break-words`}>
+              <div className='md:max-w-[500px] md:min-w-32 max-w-64 min-w-20'>
               {message.content}
+              </div>
+              <div className='text-xs text-gray-600 pb-1 text-right'>
+          {moment(message.timestamp).format("LT")}
+        </div>
             </div>
           )
         }
@@ -144,9 +149,6 @@ export default function MessageContainer() {
           )
         }
 
-        <div className='text-xs text-gray-600'>
-          {moment(message.timestamp).format("LT")}
-        </div>
       </div>
     );
   }
@@ -159,10 +161,12 @@ export default function MessageContainer() {
         {
           message.messageType === "text" && (
             <div className={`${message.sender._id === userInfo.id ? 
-              "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50": 
-              "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
-            } border inline-block p-4 rounded-2xl my-1 ml-9 max-w-[50%] break-words`}>
+              "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50 rounded-t-2xl rounded-l-2xl text-left": 
+              "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20 rounded-t-2xl rounded-r-2xl"
+            } border inline-block px-3 py-3 my-1 break-words`}>
+              <div className='md:max-w-[500px] md:min-w-32 max-w-64 min-w-20'>
               {message.content}
+              </div>
             </div>
           )
         }

@@ -52,7 +52,7 @@ export default function Profile() {
 
       if(response.status ===200 && response.data){
         setUserInfo({...response.data});
-        toast.success("Profile updated Successfully");
+        toast.success("Profile udpated")
         navigate("/chat");
       }
      } catch (error) {
@@ -102,6 +102,29 @@ export default function Profile() {
     }
   };
 
+   // Regular expression to check if the input contains only letters
+   const namePattern = /^[a-zA-Z]+$/;
+
+   // Handler for first name input
+   const handleFirstNameChange = (e) => {
+     const value = e.target.value;
+     if (namePattern.test(value) || value === '') {
+       setFirstName(value);
+     } else {
+       toast.error("First name should only contain letters");
+     }
+   };
+ 
+   // Handler for last name input
+   const handleLastNameChange = (e) => {
+     const value = e.target.value;
+     if (namePattern.test(value) || value === '') {
+       setLastName(value);
+     } else {
+       toast.error("Last name should only contain letters");
+     }
+   };
+
 
 
   return (
@@ -135,7 +158,7 @@ export default function Profile() {
               </Avatar>
 
               {hovered && (
-                <div className='absolute inset-0 flex items-center justify-center bg-black/50 ring-fuchsia-50 rounded-full'
+                <div className='absolute inset-0 h-32 w-32 md:w-48 md:h-48 top-[54px] md:top-0 flex items-center justify-center bg-black/50 ring-fuchsia-50 rounded-full'
                 onClick={image ? handleDeleteImage : handleFileInputClick}
                 >
                   {
@@ -150,22 +173,22 @@ export default function Profile() {
                 <Input placeholder="Email" type="email" disabled value={userInfo.email} className="rounded-lg p-6 bg-[#2c2e3b] border-none" />
               </div>
               <div className='w-full'>
-              <Input placeholder="First Name" type="text"  value={firstName} onChange={(e)=>setFirstName(e.target.value)} className="rounded-lg p-6 bg-[#2c2e3b] border-none" />
+              <Input placeholder="First Name" type="text"  value={firstName}  onChange={handleFirstNameChange} className="rounded-lg p-6 bg-[#2c2e3b] border-none" />
               </div>
               <div className='w-full'>
-              <Input placeholder="Last Name" type="text"  value={lastName} onChange={(e)=>setLastName(e.target.value)} className="rounded-lg p-6 bg-[#2c2e3b] border-none" />
+              <Input placeholder="Last Name" type="text"  value={lastName} onChange={handleLastNameChange} className="rounded-lg p-6 bg-[#2c2e3b] border-none" />
               </div>
               
-              <div className="w-full flex gap-5">
+              <div className="w-full flex gap-5 h-8">
                 {colors.map((color,index)=> (
                 <div 
-                className={`${color} h-8 w-8 rounded-full cursor-pointer transition-all duration-300 ${selectedColor === index ? "outline-white/50 outline-3 outline ": ""}`} key={index} onClick={()=>setselectedColor(index)}> </div>))}
+                className={`${color} h-6 w-6 md:h-full md:w-8 rounded-full cursor-pointer transition-all duration-300 ${selectedColor === index ? "outline-white/50 outline-3 outline ": ""}`} key={index} onClick={()=>setselectedColor(index)}> </div>))}
               </div>
             </div>  
         </div>
 
         <div className='w-full'>
-            <Button className="h-16 w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300" onClick={saveChanges}>
+            <Button className="h-14 w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300" onClick={saveChanges}>
               Save Changes
             </Button>
         </div>

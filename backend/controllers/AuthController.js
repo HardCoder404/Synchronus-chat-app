@@ -10,72 +10,88 @@ const createToken = (email,userId) =>{
 }
 
 
-export const signup = async (request,response,next) =>{
-    try {
-      const {email,password} = request.body;
-      if(!email || !password){
-        return response.status(400).send("Email and Password are required");
-      }
-      // create user in the database:
-      const user = await User.create({email,password});
-      response.cookie("jwt",createToken(email,user.id),{
-        maxAge,
-        secure: true,
-        sameSite: "None",
-      });
-      return response.status(201).json({
-        user: {
-            id: user.id,
-            email: user.email,
-            profileSetup: user.profileSetup,
-        }
-      })
-    } catch (error) {
-      console.log({error});
-      return response.status(500).send("Internal Server ERROR")
+export const signup = async (request, response, next) => {
+  try {
+    const { email, password } = request.body;
+
+    if (!email || !password) {
+      return response.status(400).json({ error: "Email and Password are required" });
     }
-}
 
-
-export const login = async (request,response,next) =>{
-    try {
-      const {email,password} = request.body;
-      if(!email || !password){
-        return response.status(400).send("Email and Password are required");
-      }
-      // check user is present in the database or not:
-      const user = await User.findOne({email});
-      if(!user){
-        return response.status(404).send("User with this email ID not found");
-      }
-
-      // check password : 
-      const auth = await compare(password,user.password);
-      if(!auth){
-        return response.status(400).send("Password is Incorrect");
-      }
-      response.cookie("jwt",createToken(email,user.id),{
-        maxAge,
-        secure: true,
-        sameSite: "None",
-      });
-
-      return response.status(200).json({
-        user: {
-            id: user.id,
-            email: user.email,
-            profileSetup: user.profileSetup,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            image: user.image,
-            color: user.color,
-        }
-      })
-    } catch (error) {
-      console.log({error});
-      return response.status(500).send("Internal Server ERROR")
+    // Check if the email is already in use
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return response.status(400).json({ error: "EmailAlreadyExists" });
     }
-}
+
+    // Create user in the database
+    const user = await User.create({ email, password });
+
+    response.cookie("jwt", createToken(email, user.id), {
+      maxAge,
+      secure: true,
+      sameSite: "None",
+    });
+
+    return response.status(201).json({
+      user: {
+        id: user.id,
+        email: user.email,
+        profileSetup: user.profileSetup,
+      }
+    });
+  } catch (error) {
+    console.log({ error });
+    return response.status(500).json({ error: "InternalServerError" });
+  }
+};
+
+
+
+export const login = async (request, response, next) => {
+  try { 
+    const { email, password } = request.body;
+
+    if (!email || !password) {
+      return response.status(400).json({ error: "Email and Password are required" });
+    }
+
+    // Check if user is present in the database
+    const user = await User.findOne({ email });
+    if (!user) {
+      return response.status(404).json({ error: "UserNotFound" });
+    }
+
+    // Check if password matches
+    const auth = await compare(password, user.password);
+    if (!auth) {
+      return response.status(400).json({ error: "IncorrectPassword" });
+    }
+
+    // If authentication is successful
+    response.cookie("jwt", createToken(email, user.id), {
+      maxAge,
+      secure: true,
+      sameSite: "None",
+    });
+
+    return response.status(200).json({
+      user: {
+        id: user.id,
+        email: user.email,
+        profileSetup: user.profileSetup,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        image: user.image,
+        color: user.color,
+      }
+    });
+  } catch (error) {
+    console.log({ error });
+    return response.status(500).json({ error: "InternalServerError" });
+  }
+};
+
 
 export const getUserInfo = async (request,response,next) =>{
     try {
@@ -103,6 +119,7 @@ export const updateProfile = async (request,response,next) =>{
     try {
       const {userId} = request;
       const {firstName,lastName,color} = request.body;
+      
       if(!firstName || !lastName){
         return response.status(400).send("FirstName LastName is required");
       }      
@@ -117,7 +134,6 @@ export const updateProfile = async (request,response,next) =>{
         },
         { new:true, runValidators:true}
       );
-
       return response.status(200).json({
             id: userData.id,
             email: userData.email,

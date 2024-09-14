@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    image: {
+    color: {
         type: String,
         required: false,
     },

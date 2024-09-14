@@ -46,7 +46,7 @@ export default function ProfileInfo() {
     }
 
   return (
-    <div className='absolute bottom-0 h-16 flex items-center justify-between px-10 w-full bg-[#2a2b33] '>
+    <div className='absolute bottom-0 rounded-t-lg h-16 flex items-center justify-between px-10 w-full bg-[#2a2b33] '>
         <div className="flex gap-3 justify-center items-center">
             <div className='w-12 h-12 relative'>
             <Avatar className="h-12 w-12 rounded-full overflow-hidden ">
@@ -80,7 +80,7 @@ export default function ProfileInfo() {
                 <TooltipTrigger>
                     <Pencil size={18} color='purple' strokeWidth={2} onClick={()=>navigate("/profile")}/>
                 </TooltipTrigger>
-                <TooltipContent className="bg-[#1c1b1e] border-none text-white ">
+                <TooltipContent className="bg-[#1e1b1c] border-none text-white ">
                 <p>Edit Profile</p>
                 </TooltipContent>
             </Tooltip>
@@ -90,17 +90,17 @@ export default function ProfileInfo() {
                     <AlertDialogTrigger>
                     <TooltipProvider>
                         <Tooltip>
-                            <TooltipTrigger>
-                            <Power size={18}  color='red' strokeWidth={2}/>                            
+                            <TooltipTrigger className='h-full'>
+                            <Power size={18}  color='#eb323f' strokeWidth={2}/>                            
                             </TooltipTrigger>
-                            <TooltipContent className="bg-[#1c1b1e] border-none text-white ">
+                            <TooltipContent className="bg-[#1e1b1c] border-none text-white ">
                             <p>logout</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
 
                     </AlertDialogTrigger>
-                        <AlertDialogContent>
+                        <AlertDialogContent className="md:w-full w-[350px] outline-none rounded-lg ">
                           <AlertDialogHeader>
                             <AlertDialogTitle>Are you want to logout?</AlertDialogTitle>
                           </AlertDialogHeader>

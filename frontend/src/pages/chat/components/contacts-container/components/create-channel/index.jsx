@@ -76,7 +76,7 @@ export default function CreateChannel() {
       </TooltipProvider>
 
       <Dialog open={newChannelModal} onOpenChange={setNewChannelModal}>
-  <DialogContent className="bg-[#181920] border-none text-white w-[400px] h-[400px] flex flex-col  ">
+  <DialogContent className="bg-[#181920] border-none text-white md:w-[400px] w-[350px] rounded-lg h-[400px] flex flex-col  ">
     <DialogHeader>
       <DialogTitle>Please fill up the details for new channel</DialogTitle>
       <DialogDescription></DialogDescription>
